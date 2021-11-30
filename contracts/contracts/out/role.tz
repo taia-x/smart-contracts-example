@@ -1,0 +1,48 @@
+{ parameter
+    (or (or (unit %makeCertifier) (unit %makeCustomer))
+        (or (unit %makeProvider) (unit %removeRole))) ;
+  storage
+    (big_map
+       address
+       (or (or (unit %certifier) (unit %customer)) (or (unit %noRole) (unit %provider)))) ;
+  code { UNPAIR ;
+         IF_LEFT
+           { IF_LEFT
+               { DROP ;
+                 UNIT ;
+                 LEFT unit ;
+                 LEFT (or unit unit) ;
+                 SOME ;
+                 SENDER ;
+                 UPDATE ;
+                 NIL operation ;
+                 PAIR }
+               { DROP ;
+                 UNIT ;
+                 RIGHT unit ;
+                 LEFT (or unit unit) ;
+                 SOME ;
+                 SENDER ;
+                 UPDATE ;
+                 NIL operation ;
+                 PAIR } }
+           { IF_LEFT
+               { DROP ;
+                 UNIT ;
+                 RIGHT unit ;
+                 RIGHT (or unit unit) ;
+                 SOME ;
+                 SENDER ;
+                 UPDATE ;
+                 NIL operation ;
+                 PAIR }
+               { DROP ;
+                 UNIT ;
+                 LEFT unit ;
+                 RIGHT (or unit unit) ;
+                 SOME ;
+                 SENDER ;
+                 UPDATE ;
+                 NIL operation ;
+                 PAIR } } } }
+
